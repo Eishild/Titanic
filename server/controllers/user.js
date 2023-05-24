@@ -1,20 +1,16 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
-const UsersModel = require("../models/users")
-const PassengersModel = require("../models/passengers")
+const Passenser = require("../models/passengers")
+const User = require("../models/user")
 
 async function addUser(req, res) {
-  let newUser = req.body
+  let { email, password } = req.body
 
   try {
-    const users = await UsersModel.find()
+    const users = await User.find({ email })
 
-    if (
-      users.find((e) => {
-        return e.email == newUser.email
-      }) !== undefined
-    ) {
+    if (users.length !== 0) {
       console.log("accountAlreadyExist")
       return res.status(400).send({
         type: "accountAlreadyExist",
@@ -22,11 +18,15 @@ async function addUser(req, res) {
       })
     }
 
-    const passwordHashed = await bcrypt.hash(newUser.password, 10)
-    newUser.password = passwordHashed
+    const passwordHashed = await bcrypt.hash(password, 10)
 
-    await UsersModel.create(newUser)
-    console.log(`donnée ajouté ${newUser.email}`)
+    const newUser = new User({
+      ...req.body,
+      password: passwordHashed,
+    })
+
+    newUser.save()
+
     res.status(200).send("Donnée envoyée avec succèes.")
   } catch (error) {
     console.log(error)
@@ -36,9 +36,9 @@ async function addUser(req, res) {
 
 async function login(req, res) {
   try {
-    let userLogin = { ...req.body }
+    let { email } = req.body
 
-    const user = await UsersModel.findOne({ email: userLogin.email })
+    const user = await User.findOne({ email })
 
     if (!user) {
       console.log("account Not found !")
@@ -49,8 +49,7 @@ async function login(req, res) {
 
     console.log("account found !")
 
-    const isValid = await bcrypt.compare(userLogin.password, user.password)
-    console.log(isValid)
+    const isValid = bcrypt.compare(userLogin.password, user.password)
 
     if (isValid) {
       const token = jwt.sign(
@@ -69,8 +68,6 @@ async function login(req, res) {
     } else {
       return res.status(403).send("mot de passe incorrect")
     }
-
-    // res.status(200).send("Compte trouvé ! Demande de connexion reçu.");
   } catch (error) {
     res
       .status(500)
@@ -78,10 +75,14 @@ async function login(req, res) {
   }
 }
 
-function getAllPassengers(req, res) {
-  PassengersModel.find().then((data) => {
-    res.status(200).send({ message: `Donnée envoyé !`, value: data })
-  })
+async function getAllPassengers(req, res) {
+  try {
+    const data = await Passenser.find()
+    res.status(200).send({ message: "Donnée envoyée !", value: data })
+  } catch (error) {
+    console.log(error)
+    res.status(500).send("Erreur de serveur.")
+  }
 }
 
 module.exports = { getAllPassengers, login, addUser }

@@ -1,18 +1,18 @@
 const mongoose = require("mongoose")
 
-const passengersSchema = new mongoose.Schema({
-  PassengerId: { type: Number },
-  Survived: { type: Number },
-  Pclass: { type: Number },
-  Name: { type: String },
-  Sex: { type: String },
-  Age: { type: Number },
-  SibSp: { type: Number },
-  Parch: { type: Number },
-  Ticket: { type: Number },
-  Fare: { type: Number },
-  Cabin: { type: String },
-  Embarked: { type: String },
+const Passengers = new mongoose.Schema({
+  passengerId: { type: Number },
+  survived: { type: Number },
+  pclass: { type: Number },
+  name: { type: String },
+  sex: { type: String },
+  age: { type: Number },
+  sibSp: { type: Number },
+  parch: { type: Number },
+  ticket: { type: Number },
+  fare: { type: Number },
+  cabin: { type: String },
+  embarked: { type: String },
 })
 
-module.exports = mongoose.model("passengers", passengersSchema)
+module.exports = mongoose.model("Passengers", Passengers)

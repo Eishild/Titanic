@@ -22,26 +22,23 @@ export default function SearchPage() {
     switch (box) {
       case "sexe":
         setSearchRule((prev) => ({
-          ...prev,
-          sex: !searchRule.sex,
+          sex: !prev.sex,
           age: false,
           classe: false,
         }))
         break
       case "age":
         setSearchRule((prev) => ({
-          ...prev,
           sex: false,
-          age: !searchRule.age,
+          age: !prev.age,
           classe: false,
         }))
         break
       case "classe":
         setSearchRule((prev) => ({
-          ...prev,
           sex: false,
           age: false,
-          classe: !searchRule.classe,
+          classe: !prev.classe,
         }))
         break
       default:
