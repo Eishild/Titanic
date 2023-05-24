@@ -1,7 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const User = require("./routes/user")
-const { connexion } = require("./connexion/mongoConnect")
+const { Connexion } = require("./connexion/mongoConnect")
 
 require("dotenv").config()
 
@@ -12,4 +12,8 @@ app.use(express.json()) // équivalent à body-parser
 
 app.use("/", User)
 
-connexion(process.env.DB_URI, process.env.APP_PORT)
+Connexion(process.env.DB_URI).then(() => {
+  app.listen(process.env.APP_PORT, () =>
+    console.log(`Serveur lancé sur le port : ${process.env.APP_PORT}`)
+  )
+})

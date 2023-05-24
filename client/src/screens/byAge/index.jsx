@@ -27,7 +27,6 @@ export default function ByAgePage() {
 
   const navigate = useNavigate()
 
-  console.log("categories", categories)
   const handleGetPassengers = async () => {
     const d = await apiService.getAllPassengers()
     setPassengersData(d.data.value)

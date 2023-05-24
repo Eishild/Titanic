@@ -18,7 +18,7 @@ const Register = () => {
 
   const updateLoginForm = useUpdateLoginForm()
 
-  const handlePost = (e, type) => {
+  const handlePost = (e) => {
     try {
       e.preventDefault()
 

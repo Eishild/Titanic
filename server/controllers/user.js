@@ -36,7 +36,7 @@ async function addUser(req, res) {
 
 async function login(req, res) {
   try {
-    let { email } = req.body
+    const { email, password } = req.body
 
     const user = await User.findOne({ email })
 
@@ -49,8 +49,9 @@ async function login(req, res) {
 
     console.log("account found !")
 
-    const isValid = bcrypt.compare(userLogin.password, user.password)
+    const isValid = bcrypt.compare(user.password, password)
 
+    console.log("isValid", isValid)
     if (isValid) {
       const token = jwt.sign(
         {

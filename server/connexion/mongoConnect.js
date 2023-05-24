@@ -1,15 +1,16 @@
 const mongoose = require("mongoose")
-const express = require("express")
 
-const app = express()
 mongoose.set("strictQuery", false)
-async function connexion(db_uri, port) {
+
+const Connexion = async (db_uri) => {
   try {
     await mongoose.connect(db_uri)
-    app.listen(port, () => console.log(`Serveur lancé sur le port : ${port}`))
+    console.log("connexion avec la base de donnée établie")
   } catch (error) {
+    console.log("Erreur de connexion avec la base de donnée")
+
     console.log(error)
   }
 }
 
-module.exports = { connexion }
+module.exports = { Connexion }
