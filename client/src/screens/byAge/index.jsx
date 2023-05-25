@@ -267,7 +267,7 @@ export default function ByAgePage() {
           )}
           <MainButtonComponent
             title={"Remove"}
-            onClick={() => navigate("/search")}
+            onClick={() => navigate("/graphs")}
           />
         </div>
       </div>

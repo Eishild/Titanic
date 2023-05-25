@@ -27,7 +27,7 @@ const Login = () => {
             email: "",
             password: "",
           })
-          navigate("/search")
+          navigate("/home")
           window.localStorage.setItem("token", e.data.token)
           updateIslogin(true)
         } else {

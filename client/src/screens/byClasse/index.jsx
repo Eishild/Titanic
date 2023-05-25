@@ -250,7 +250,7 @@ export default function ByClassePage() {
 
         <MainButtonComponent
           title={"Remove"}
-          onClick={() => navigate("/search")}
+          onClick={() => navigate("/graphs")}
         />
       </div>
     </div>

@@ -5,6 +5,7 @@ import { verifyToken } from "../../tools"
 
 export default function SearchPage() {
   let navigate = useNavigate()
+
   const [searchRule, setSearchRule] = useState({
     sex: false,
     age: false,
@@ -48,13 +49,13 @@ export default function SearchPage() {
 
   const toPageGraph = () => {
     if (searchRule.sex === true) {
-      navigate("/byGender")
+      navigate("/graphs/byGender")
     }
     if (searchRule.age === true) {
-      navigate("/byAge")
+      navigate("/graphs/byAge")
     }
     if (searchRule.classe === true) {
-      navigate("/byClasse")
+      navigate("/graphs/byClasse")
     }
   }
 
