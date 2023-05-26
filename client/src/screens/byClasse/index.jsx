@@ -19,6 +19,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 export default function ByClassePage() {
   const [passengersData, setPassengersData] = useState([])
   const [categories, setCategories] = useState({
+    total: true,
     average: false,
     derivation: false,
     survived: false,
@@ -90,7 +91,7 @@ export default function ByClassePage() {
   console.log(standardDeviation("C"))
 
   const options = {
-    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -127,36 +128,45 @@ export default function ByClassePage() {
     labels,
     datasets: [
       {
-        label: categories.average
-          ? "Moyenne d'age des passagers de classe A"
-          : "A",
-        data: labels.map(() =>
-          categories.average
-            ? Math.round(getAverageAgeByClass("A"))
-            : passengersData.filter((e) => e.pclass === 1).length
+        label: "A",
+        data: labels.map(
+          () => passengersData.filter((e) => e.pclass === 1).length
         ),
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
-        label: categories.average
-          ? "Moyenne d'age des passagers de classe B"
-          : "B",
-        data: labels.map(() =>
-          categories.average
-            ? Math.round(getAverageAgeByClass("B"))
-            : passengersData.filter((e) => e.pclass === 2).length
+        label: "B",
+        data: labels.map(
+          () => passengersData.filter((e) => e.pclass === 2).length
         ),
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
       {
-        label: categories.average
-          ? "Moyenne d'age des passagers de classe C"
-          : "C",
-        data: labels.map(() =>
-          categories.average
-            ? Math.round(getAverageAgeByClass("C"))
-            : passengersData.filter((e) => e.pclass === 3).length
+        label: "C",
+        data: labels.map(
+          () => passengersData.filter((e) => e.pclass === 3).length
         ),
+        backgroundColor: "rgba(50, 160, 200, 0.5)",
+      },
+    ],
+  }
+  const dataAverage = {
+    labels,
+    datasets: [
+      {
+        label: "Moyenne d'age des passagers de classe A",
+
+        data: labels.map(() => Math.round(getAverageAgeByClass("A"))),
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+      {
+        label: "Moyenne d'age des passagers de classe B",
+        data: labels.map(() => Math.round(getAverageAgeByClass("B"))),
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+      {
+        label: "Moyenne d'age des passagers de classe C",
+        data: labels.map(() => Math.round(getAverageAgeByClass("C"))),
         backgroundColor: "rgba(50, 160, 200, 0.5)",
       },
     ],
@@ -197,61 +207,78 @@ export default function ByClassePage() {
 
   return (
     <div>
-      <div className="flex-col justify-center text-center">
+      <div className="flex-col justify-center text-center px-4">
         <h1 className="text-6xl">Données retranscrie</h1>
-        <form className="flex m-auto w-5/12 justify-around bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <label>Moyenne d'age par classe</label>
-          <input
-            type={"checkbox"}
-            checked={categories.average}
-            onChange={() =>
-              setCategories((prev) => ({
-                average: !prev.average,
-                derivation: false,
-                survived: false,
-              }))
-            }
-          ></input>
-          <label>Ecart type</label>
-          <input
-            type={"checkbox"}
-            checked={categories.derivation}
-            onChange={() =>
-              setCategories((prev) => ({
-                average: false,
-                derivation: !prev.derivation,
-                survived: false,
-              }))
-            }
-          ></input>
-          <label>Survecue</label>
-          <input
-            type={"checkbox"}
-            checked={categories.survived}
-            onChange={() =>
-              setCategories((prev) => ({
-                average: false,
-                derivation: false,
-                survived: !prev.survived,
-              }))
-            }
-          ></input>
+        <form className="flex m-auto lg:w-5/12 justify-around bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div className=" flex flex-col space-x-2">
+            <label htmlFor="total">Nombre de Passagers</label>
+            <input
+              type={"checkbox"}
+              checked={categories.total}
+              id="total"
+              onChange={() =>
+                setCategories((prev) => ({
+                  ...prev,
+                  total: !prev.total,
+                }))
+              }
+            ></input>
+          </div>
+          <div className=" flex flex-col space-x-2">
+            <label htmlFor="average">Moyenne d'age</label>
+            <input
+              type={"checkbox"}
+              checked={categories.average}
+              id="average"
+              onChange={() =>
+                setCategories((prev) => ({
+                  ...prev,
+                  average: !prev.average,
+                }))
+              }
+            ></input>
+          </div>
+          <div className="flex flex-col space-x-2">
+            <label htmlFor="derivation">Ecart type</label>
+            <input
+              type={"checkbox"}
+              id="derivation"
+              checked={categories.derivation}
+              onChange={() =>
+                setCategories((prev) => ({
+                  ...prev,
+                  derivation: !prev.derivation,
+                }))
+              }
+            ></input>
+          </div>
+          <div className=" flex flex-col space-x-2">
+            <label htmlFor="survived">Survecue</label>
+            <input
+              type={"checkbox"}
+              id="survived"
+              checked={categories.survived}
+              onChange={() =>
+                setCategories((prev) => ({
+                  ...prev,
+                  survived: !prev.survived,
+                }))
+              }
+            ></input>
+          </div>
         </form>
-        <div className="w-2/3 mx-auto">
-          {categories.survived ? (
-            <Bar options={options} data={dataSurvived} />
-          ) : (
-            <Bar
-              options={options}
-              data={categories.derivation ? dataDerivation : data}
-            />
+        <div className="w-[80vw] h-[350px] lg:max-h-[650px] lg:h-screen mx-auto">
+          <MainButtonComponent
+            title={"Retour"}
+            onClick={() => navigate("/graphs")}
+          />
+          {categories.total && <Bar options={options} data={data} />}
+          {categories.average && <Bar options={options} data={dataAverage} />}
+          {categories.derivation && (
+            <Bar options={options} data={dataDerivation} />
           )}
+          {categories.survived && <Bar options={options} data={dataSurvived} />}
         </div>
-
-        <MainButtonComponent
-          title={"Remove"}
-          onClick={() => navigate("/graphs")}
-        />
       </div>
     </div>
   )

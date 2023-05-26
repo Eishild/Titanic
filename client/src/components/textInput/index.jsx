@@ -6,8 +6,15 @@ export default function TextInputComponent({
   placeholder,
   onChange,
   hasErrors,
+  onSubmit,
   value,
 }) {
+  const handleKeyDown = (code) => {
+    if (code === "Enter") {
+      return onSubmit()
+    }
+    return null
+  }
   return (
     <div>
       <input
@@ -18,6 +25,7 @@ export default function TextInputComponent({
         value={value}
         type={type}
         placeholder={placeholder}
+        onKeyDown={(event) => handleKeyDown(event.code)}
         onChange={onChange}
       />
     </div>

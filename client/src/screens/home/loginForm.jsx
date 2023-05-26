@@ -7,7 +7,7 @@ export default function LoginFormComponent() {
   const loginForm = useLoginForm()
 
   return (
-    <div className="w-1/4 m-auto p-10">
+    <div className=" lg:w-1/4 m-auto p-10">
       {loginForm ? <Login /> : <Register />}
     </div>
   )

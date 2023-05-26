@@ -11,9 +11,8 @@ const Pagination = ({ currentPage, pageSize, count, onChangePage }) => {
           {pagesArray.map((page) => (
             <li
               key={page}
-              className={`
-              h-8 w-8 border-sky-500 border-2 flex items-center justify-center cursor-pointer 
-              ${page === currentPage ? "page-item active" : "page-item"}`}
+              className={`h-9 w-9 border-sky-500 border flex items-center justify-center cursor-pointer 
+              ${page === currentPage && "bg-sky-500 text-white"}`}
               onClick={() => onChangePage(page)}
             >
               {page + 1}

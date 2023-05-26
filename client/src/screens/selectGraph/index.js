@@ -61,39 +61,59 @@ export default function SearchPage() {
 
   return (
     <div>
-      <div className="flex-col justify-center text-center">
+      <div className="flex-col px-4 justify-center text-center">
         <h1 className="text-6xl">Bienvenue</h1>
         <div className="items-center">
-          <form className="flex m-auto w-5/12 justify-around bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <form className="flex flex-col m-auto lg:w-5/12 justify-around bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div>
               <h3>Choissez un domaine de recherche :</h3>
             </div>
-            <div>
-              <label className="md:w-2/3 text-gray-500 font-bold">Sexe</label>
-              <input
-                className="mr-2 leading-tight"
-                type={"checkbox"}
-                checked={searchRule.sex}
-                onChange={() => checkboxChecker("sexe")}
-              ></input>
-            </div>
-            <div>
-              <label className="md:w-2/3 text-gray-500 font-bold">Age</label>
-              <input
-                type={"checkbox"}
-                className="mr-2 leading-tight"
-                checked={searchRule.age}
-                onChange={() => checkboxChecker("age")}
-              ></input>
-            </div>
-            <div>
-              <label className="md:w-2/3 text-gray-500 font-bold">Classe</label>
-              <input
-                type={"checkbox"}
-                className="mr-2 leading-tight"
-                checked={searchRule.classe}
-                onChange={() => checkboxChecker("classe")}
-              ></input>
+            <div className="flex justify-center mt-3 gap-10">
+              <div className="space-x-2">
+                <label
+                  className="md:w-2/3 text-gray-500 font-bold"
+                  htmlFor="sex"
+                >
+                  Sexe
+                </label>
+                <input
+                  className="mr-2 leading-tight"
+                  id="sex"
+                  type={"checkbox"}
+                  checked={searchRule.sex}
+                  onChange={() => checkboxChecker("sexe")}
+                ></input>
+              </div>
+              <div className="space-x-2">
+                <label
+                  className="md:w-2/3 text-gray-500 font-bold"
+                  htmlFor="age"
+                >
+                  Age
+                </label>
+                <input
+                  type={"checkbox"}
+                  id="age"
+                  className="mr-2 leading-tight"
+                  checked={searchRule.age}
+                  onChange={() => checkboxChecker("age")}
+                ></input>
+              </div>
+              <div className="space-x-2">
+                <label
+                  className="md:w-2/3 text-gray-500 font-bold"
+                  htmlFor="classe"
+                >
+                  Classe
+                </label>
+                <input
+                  type={"checkbox"}
+                  id="classe"
+                  className="mr-2 leading-tight"
+                  checked={searchRule.classe}
+                  onChange={() => checkboxChecker("classe")}
+                ></input>
+              </div>
             </div>
           </form>
         </div>

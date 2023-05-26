@@ -42,10 +42,12 @@ ChartJS.register(
 export default function ByGenderPage() {
   const [passengersData, setPassengersData] = useState([])
   const [categories, setCategories] = useState({
+    total: true,
     average: false,
     derivation: false,
     survived: false,
   })
+  console.log("categories", categories)
   const labels = ["Genre"]
   const navigate = useNavigate()
 
@@ -106,7 +108,7 @@ export default function ByGenderPage() {
   }
 
   const options = {
-    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -122,25 +124,33 @@ export default function ByGenderPage() {
     labels,
     datasets: [
       {
-        label: categories.average
-          ? "moyenne d'age des femmes"
-          : "Nombre de Femmes",
-        data: categories.average
-          ? labels.map(() => Math.round(getAverageAgeByGender("femme")))
-          : labels.map(
-              () => passengersData.filter((e) => e.sex === "female").length
-            ),
+        label: "Nombre de Femmes",
+        data: labels.map(
+          () => passengersData.filter((e) => e.sex === "female").length
+        ),
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
-        label: categories.average
-          ? "moyenne d'age des hommes"
-          : "Nombre d'hommes",
-        data: categories.average
-          ? labels.map(() => Math.round(getAverageAgeByGender("homme")))
-          : labels.map(
-              () => passengersData.filter((e) => e.sex === "male").length
-            ),
+        label: "Nombre d'hommes",
+        data: labels.map(
+          () => passengersData.filter((e) => e.sex === "male").length
+        ),
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  }
+  const dataAverage = {
+    labels,
+    datasets: [
+      {
+        label: "moyenne d'age des femmes",
+        data: labels.map(() => Math.round(getAverageAgeByGender("femme"))),
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+      {
+        label: "moyenne d'age des hommes",
+        data: labels.map(() => Math.round(getAverageAgeByGender("homme"))),
+
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
     ],
@@ -189,59 +199,77 @@ export default function ByGenderPage() {
 
   return (
     <div>
-      <div className="flex-col justify-center text-center">
+      <div className="flex-col justify-center text-center px-4">
         <h1 className="text-6xl">Données retranscrie</h1>
-        <form className="flex m-auto w-5/12 justify-around bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <label>Moyenne d'age</label>
-          <input
-            type={"checkbox"}
-            checked={categories.average}
-            onChange={() =>
-              setCategories((prev) => ({
-                average: !prev.average,
-                derivation: false,
-                survived: false,
-              }))
-            }
-          ></input>
-          <label>Ecart type</label>
-          <input
-            type={"checkbox"}
-            checked={categories.derivation}
-            onChange={() =>
-              setCategories((prev) => ({
-                average: false,
-                derivation: !prev.derivation,
-                survived: false,
-              }))
-            }
-          ></input>
-          <label>Survecue</label>
-          <input
-            type={"checkbox"}
-            checked={categories.survived}
-            onChange={() =>
-              setCategories((prev) => ({
-                average: false,
-                derivation: false,
-                survived: !prev.survived,
-              }))
-            }
-          ></input>
+        <form className="flex m-auto lg:w-5/12 justify-around bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div className=" flex flex-col space-x-2">
+            <label htmlFor="total">Nombre de Passagers</label>
+            <input
+              type={"checkbox"}
+              checked={categories.total}
+              id="total"
+              onChange={() =>
+                setCategories((prev) => ({
+                  ...prev,
+                  total: !prev.total,
+                }))
+              }
+            ></input>
+          </div>
+          <div className=" flex flex-col space-x-2">
+            <label htmlFor="average">Moyenne d'age</label>
+            <input
+              type={"checkbox"}
+              checked={categories.average}
+              id="average"
+              onChange={() =>
+                setCategories((prev) => ({
+                  ...prev,
+                  average: !prev.average,
+                }))
+              }
+            ></input>
+          </div>
+          <div className="flex flex-col space-x-2">
+            <label htmlFor="derivation">Ecart type</label>
+            <input
+              type={"checkbox"}
+              id="derivation"
+              checked={categories.derivation}
+              onChange={() =>
+                setCategories((prev) => ({
+                  ...prev,
+                  derivation: !prev.derivation,
+                }))
+              }
+            ></input>
+          </div>
+          <div className=" flex flex-col space-x-2">
+            <label htmlFor="survived">Survecue</label>
+            <input
+              type={"checkbox"}
+              id="survived"
+              checked={categories.survived}
+              onChange={() =>
+                setCategories((prev) => ({
+                  ...prev,
+                  survived: !prev.survived,
+                }))
+              }
+            ></input>
+          </div>
         </form>
-        <div className="w-2/3 mx-auto">
-          {categories.derivation ? (
-            <Bar options={options} data={dataDerivation} />
-          ) : (
-            <Bar
-              options={options}
-              data={categories.survived ? dataSurvived : data}
-            />
-          )}
+        <div className="w-[80vw] h-[350px] lg:max-h-[650px] lg:h-screen mx-auto">
           <MainButtonComponent
-            title={"Remove"}
+            title={"Retour"}
             onClick={() => navigate("/graphs")}
           />
+          {categories.total && <Bar options={options} data={data} />}
+          {categories.average && <Bar options={options} data={dataAverage} />}
+          {categories.derivation && (
+            <Bar options={options} data={dataDerivation} />
+          )}
+          {categories.survived && <Bar options={options} data={dataSurvived} />}
         </div>
       </div>
     </div>

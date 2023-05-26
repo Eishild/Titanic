@@ -7,13 +7,13 @@ export default function LoginScreen() {
   let navigate = useNavigate()
   useEffect(() => {
     if (verifyToken() !== null) {
-      navigate("/search")
+      navigate("/home")
     }
   }, [navigate])
 
   return (
     <div>
-      <div className="flex-col justify-center text-center">
+      <div className="flex-col justify-center text-center p-4">
         <h1 className="text-6xl">Bienvenue sur Titanic</h1>
         <h4 className="text-2xl">
           Connectez-vous ou inscrivez vous afin d'effectuer des recherches

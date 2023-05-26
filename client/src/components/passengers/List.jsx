@@ -5,7 +5,7 @@ const List = ({ passengers }) => {
     <div className="flex-col justify-center text-center">
       <table className="w-full">
         <thead>
-          <tr className="grid grid-cols-5 border border-black py-2 bg-gray-200">
+          <tr className="grid grid-cols-5 border border-gray-300 py-2 bg-cyan-50">
             <th className="">Numéro</th>
             <th className="">Nom</th>
             <th className="">Age</th>
@@ -17,7 +17,7 @@ const List = ({ passengers }) => {
           {passengers.map((passenger) => (
             <tr
               key={passenger.passengerId}
-              className="grid grid-cols-5 border border-black py-4 border-t-0 "
+              className="grid grid-cols-5 border border-gray-300 py-4 border-t-0 "
             >
               <td>{passenger.passengerId}</td>
               <td>{passenger.name}</td>
